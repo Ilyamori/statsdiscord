@@ -1,0 +1,193 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --index: calc(1vw + 1vh); /* Динамичный размер шрифта */
+    --gutter: 30px; /* Отступы */
+    --side-small: 100%; /* Маленькая сторона */
+    --side-big: 100%; /* Большая сторона */
+    --depth: 4000px; /* Глубина для 3D эффекта */
+    --transition: .75s cubic-bezier(.075, .5, 0, 1); /* Переход для анимаций */
+}
+
+/* Скрытие полосы прокрутки */
+body {
+    scrollbar-width: none; /* Для Firefox */
+}
+body::-webkit-scrollbar { 
+    display: none; /* Для Safari и Chrome */
+}
+
+@font-face {
+    font-family: raleway_c;
+    src: url(../fonts/raleway-v22-cyrillic-300.woff2);
+    font-weight: 300;
+}
+@font-face {
+    font-family: raleway_c;
+    src: url(../fonts/raleway-v22-cyrillic-100.woff2);
+    font-weight: 100;
+}
+
+body {
+    background-color: #070707; /* Темный фон */
+    color: #fff; /* Белый цвет текста */
+    font-size: calc(var(--index) * .8); /* Размер шрифта */
+    font-family: raleway_c, sans-serif; /* Шрифт */
+    line-height: 1.75; /* Межстрочный интервал */
+    height: var(--depth); /* Высота экрана */
+    font-weight: 300;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    position: fixed; /* Фиксированное положение */
+    perspective: 1500px; /* Эффект перспективы для 3D */
+}
+
+.gallery {
+    transform-style: preserve-3d;
+    height: 100%;
+}
+
+.frame {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition), opacity .75s ease; /* Плавное изменение */
+    will-change: transform;
+    transform-style: preserve-3d;
+}
+
+.frame-media {
+    position: relative;
+    width: calc(var(--index) * var(--side-small));
+    height: calc(var(--index) * var(--side-big));
+    background-position: center;
+    background-size: cover; /* Заставка изображения */
+}
+
+.frame-mediavd {
+	opacity: .2;
+	border-radius: 2em;
+    position: relative;
+    width: calc(var(--index) * var(--side-small));
+    height: calc(var(--index) * var(--side-big));
+    background-position: center;
+    background-size: cover; /* Заставка изображения */
+}
+
+.frame_bg {
+    background-color: #070707; /* Темный фон для рамки */
+}
+
+.frame_bgb {
+    background-color: #000000; /* Черный фон для другой рамки */
+}
+
+.video.frame-media {
+    width: calc(var(--index) * var(--side-big));
+    height: calc(var(--index) * var(--side-small));
+}
+
+.text-right > * {
+    position: relative;
+    left: 18vw; /* Выравнивание по правому краю */
+}
+
+.text-left > * {
+    position: relative;
+    right: 18vw; /* Выравнивание по левому краю */
+}
+
+.frame h2 {
+    text-align: center;
+    font-size: calc(var(--index) * 3.3); /* Размер заголовка */
+}
+
+.frame-media_left {
+    right: calc(var(--side-small) / 2 * var(--index) + var(--gutter)); /* Левый отступ */
+}
+
+.frame-media_right {
+    left: calc(var(--side-small) / 2 * var(--index) + var(--gutter)); /* Правый отступ */
+}
+
+.frame h3 {
+    font-size: calc(var(--index) * 3); /* Размер подзаголовка */
+}
+
+.frame p {
+    max-width: 30vw; /* Ограничение ширины */
+    margin-top: 3vh; /* Отступ сверху */
+}
+
+/* Стили для кнопки звука */
+.soundbutton {
+    position: fixed;
+    bottom: 5vh; /* Расположение внизу */
+    right: 5vw; /* Расположение справа */
+    cursor: pointer; /* Указатель */
+    width: 224px; /* Ширина кнопки */
+    transition: opacity 0.3s cubic-bezier(.075, .5, 0, 1); /* Плавный переход для появления/исчезновения */
+}
+
+.soundbutton.paused {
+    opacity: 1; /* Когда кнопка активна */
+}
+
+/* Стили для кнопки звука слева */
+.soundbutton-left {
+    position: fixed;
+    bottom: 5vh; /* Расположение внизу */
+    left: 5vw; /* Расположение слева */
+    cursor: pointer; /* Указатель */
+    width: 224px; /* Ширина кнопки */
+    opacity: 0; /* Изначально скрыта */
+    transition: opacity 1s cubic-bezier(.075, .5, 0, 1); /* Плавный переход для появления */
+}
+
+/* Когда кнопка .soundbutton-left становится видимой */
+.soundbutton-left.visible {
+    opacity: 1; /* Кнопка становится видимой */
+}
+
+/* Стили для аудио */
+.audio {
+    transition: volume 0.3s ease; /* Плавное изменение громкости */
+}
+
+/* Классы для плавного приглушения/восстановления громкости */
+.audio.fade-out {
+    transition: volume 1s ease-out; /* Плавное приглушение */
+}
+
+.audio.fade-in {
+    transition: volume 1s ease-in; /* Плавное восстановление громкости */
+}
+
+/* Дополнительные стили для текста */
+h1, h2, h3, h4 {
+    font-weight: 100;
+    text-transform: uppercase;
+    width: min-content;
+    line-height: 1;
+}
+
+.frame__content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.frame p {
+    font-size: 1.5rem;
+    color: #fff;
+}
